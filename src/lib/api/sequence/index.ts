@@ -1,0 +1,126 @@
+// ---------------------------------------------------------------------------
+// 'External' modules --------------------------------------------------------
+// ---------------------------------------------------------------------------
+import Promise  from 'bluebird';
+import request  from 'request-promise';
+import errors   from 'request-promise/errors';
+import R        from 'ramda';
+
+// ---------------------------------------------------------------------------
+// Project modules -----------------------------------------------------------
+// ---------------------------------------------------------------------------
+import {
+  getter
+, publisher
+} from '../../request';
+
+import {
+  baseUrl
+, unAuthPostSetup
+, postSetup
+, putSetup
+, getSetup
+, listSetup
+} from '../util';
+
+import {
+  Auth
+, IdBase
+, SupportedLanguages
+, TermsAndConditions
+} from '../sharedInterfaces';
+
+import {
+  InvoiceGetResponse
+} from '../invoice';
+
+// ---------------------------------------------------------------------------
+// Types ---------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+export interface SequenceCreateRequest
+  { serie             : string
+  , defaultSequence?  : number
+  }
+
+export interface SequenceGetResponse
+  { id                                   : number
+  , serie                              : string
+  , defaultSequence                    : number
+  , currentInvoiceNumber               : number
+  , currentInvoiceSequenceId           : number
+  , currentInvoiceReceiptNumber        : number
+  , currentInvoiceReceiptSequenceId    : number
+  , currentSimplifiedInvoiceNumber     : number
+  , currentSimplifiedInvoiceSequenceId : number
+  , currentCreditNoteNumber            : number
+  , currentCreditNoteSequenceId        : number
+  , currentDebitNoteNumber             : number
+  , currentDebitNoteSequenceId         : number
+  , currentReceiptNumber               : number
+  , currentReceiptSequenceId           : number
+  , currentShippingNumber              : number
+  , currentShippingSequenceId          : number
+  , currentTransportNumber             : number
+  , currentTransportSequenceId         : number
+  , currentDevolutionNumber            : number
+  , currentDevolutionSequenceId        : number
+  , currentProformaNumber              : number
+  , currentProformaSequenceId          : number
+  , currentQuoteNumber                 : number
+  , currentQuoteSequenceId             : number
+  , currentFeesNoteNumber              : number
+  , currentFeesNoteSequenceId          : number
+  }
+// ---------------------------------------------------------------------------
+// Sequence URLs -------------------------------------------------------------
+// ---------------------------------------------------------------------------
+const sequenceUrlFn  = accountName => `${baseUrl(accountName)}/sequences`;
+
+export const sequenceUrl =
+  {
+    create  : ({accountName}) => `${sequenceUrlFn(accountName)}.xml`
+  , get     : ({accountName, sequenceId}) =>
+                `${sequenceUrlFn(accountName)}/${sequenceId}.xml`
+  , update  : ({accountName, sequenceId}) =>
+                `${sequenceUrlFn(accountName)}/${sequenceId}/set_current.xml`
+  , listAll : ({accountName}) => `${sequenceUrlFn(accountName)}.xml`
+  };
+
+// ---------------------------------------------------------------------------
+// External Class ------------------------------------------------------------
+// ---------------------------------------------------------------------------
+export class Sequence {
+  static root = 'sequence';
+
+  static create(
+      auth: Auth
+    , body: SequenceCreateRequest
+    ) : Promise<InvoiceGetResponse> {
+    return publisher({ ...postSetup(auth, sequenceUrl.create)
+                     , root: this.root
+                     , body
+                     });
+  }
+
+  static get(
+      auth: Auth
+    , sequenceId: number
+    ) : Promise<SequenceGetResponse>{
+      return getter(getSetup(auth, sequenceUrl.get, { sequenceId }))
+      .get('sequence');
+  }
+
+  static update(
+      auth: Auth
+    , sequenceId: number
+    ) : Promise<SequenceGetResponse>{
+      return publisher(putSetup(auth, sequenceUrl.update, { sequenceId }));
+  }
+
+  static listAll( auth: Auth
+  ) : Promise<Array<SequenceGetResponse>> {
+    return getter(getSetup(auth, sequenceUrl.listAll))
+    .get('sequences')
+    .get('sequence');
+  }
+}

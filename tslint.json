@@ -1,0 +1,71 @@
+{
+  "rulesDirectory": ["./node_modules/tslint-eslint-rules/dist/rules"],
+  "rules": {
+    "one-variable-per-declaration":[true,"ignore-for-loop"],
+    "quotemark":[true,"single","jsx-double","avoid-escape"],
+    "semicolon":[true,"always","ignore-interfaces"],
+    "no-irregular-whitespace": true,
+    "variable-name":[true,"check-format","allow-pascal-case","ban-keywords","allow-leading-underscore"],
+    "only-arrow-functions": [true, "allow-declarations", "allow-named-functions"],
+    "no-conditional-assignment": true,
+    "no-empty":true,
+    "no-constant-condition":true,
+    "no-trailing-whitespace": true,
+    "whitespace":[true,"check-branch","check-decl","check-module","check-type"],
+    "no-duplicate-case":true,
+    "no-duplicate-variable":true,
+    "no-eval":true,
+    "no-shadowed-variable":true,
+    "brace-style": [
+      true,
+      "1tbs",
+      {
+        "allowSingleLine": true
+      }
+    ],
+    "use-isnan":true,
+    "no-unsafe-finally":true,
+    "no-unused-expression":true,
+    "no-use-before-declare":true,
+    "switch-default":true,
+    "no-consecutive-blank-lines": [true],
+    "linebreak-style": [true],
+    "max-file-line-count": [true,500],
+    "max-line-length":[true,80],
+    "indent": [
+      true,
+      "spaces"
+    ],
+    "comment-format": [ true, "check-space" ],
+    "class-name": true,
+    "no-console": [
+      true
+    ],
+    "no-var-keyword": true,
+    "arrow-parens": false,
+    "triple-equals": [
+      true,
+      "allow-null-check"
+    ],
+    "no-string-throw":true,
+    "prefer-const":true,
+    "space-before-function-paren": [true, { "named": "never" }],
+    "object-literal-key-quotes": [true, "as-needed"],
+    "no-construct":true,
+    "arrow-return-shorthand": [true, "multiline"],
+    "no-unbound-method": [true, "ignore-static"],
+    "no-unused-expression": [true, "allow-fast-null-checks"],
+    "no-floating-promises": true,
+    "no-misused-new": true,
+    "no-unnecessary-initializer": true,
+    "no-unnecessary-qualifier": true,
+    "no-invalid-template-strings": true,
+    "no-sparse-arrays": true,
+    "interface-over-type-literal": true,
+    "prefer-switch": [true, {"min-cases": 3}],
+    "number-literal-format": true,
+    "prefer-object-spread": true,
+    "encoding": true,
+    "prefer-conditional-expression": true
+  }
+}
