@@ -49,3 +49,9 @@ export type TypeType = 'array';
 export interface Type
   { type : TypeType
   }
+
+export enum PerPage
+  { PerPage10 = 10
+  , PerPage20 = 20
+  , PerPage30 = 30
+  }

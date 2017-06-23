@@ -27,6 +27,19 @@ import {
 } from '../../../lib/country';
 
 import {
+  TaxName
+, TaxBase
+, DefaultTaxEnum
+, TaxCreate
+, TaxGet
+, ItemBase
+, ItemCreate
+, ItemsCreate
+, ItemGet
+, ItemsGet
+} from '../items';
+
+import {
   Address
 , Auth
 , IdBase
@@ -49,66 +62,6 @@ export interface Client extends Address, Partial<IdBase>
   , fax?          : string
   , observations? : string
   , sendOptions?  : SendOptions
-  }
-
-export interface TaxName
-  { name   : string
-  }
-
-export interface TaxBase extends TaxName
-  { // %, 0 <= 100
-    value       : number
-  }
-
-export type TaxRegion
-  = 'PT'            // Portugal Continental
-  | 'PT-AC'         // Açores
-  | 'PT-MA'         // Madeira
-  | 'Desconhecido'  // Unknown
-  ;
-
-export enum DefaultTaxEnum
-  { NonDefaultTax = 0
-  , DefaultTax    = 1
-  }
-
-export interface TaxCreate extends TaxBase
-  { region      : TaxRegion
-  , defaultTax? : DefaultTaxEnum
-  }
-
-export interface TaxGet extends TaxBase
-  { id : string
-  }
-
-export interface ItemBase
-  { name        : string
-  , description : string
-    // >= 0.0
-  , unitPrice   : number
-    // >= 0
-  , quantity    : number
-  }
-
-export interface ItemCreate extends ItemBase
-  {  tax? : TaxName
-  }
-
-export interface ItemsCreate
-  { '@': Type
-  , item: Array<ItemCreate>
-  }
-
-export interface ItemGet extends ItemBase
-  { tax: TaxGet
-  , subtotal : number
-  , taxAmount: number
-  , total    : number
-  }
-
-export interface ItemsGet
-  { '@': Type
-  , item: Array<ItemGet>
   }
 
 export type TaxExemption
@@ -301,7 +254,7 @@ export class Invoice {
 
   static listAll( auth: Auth
                 , query: InvoiceListQuery
-                ) : Promise<InvoiceGetResponse> {
+                ) : Promise<InvoiceGetResponse[]> {
     return getter(listSetup(auth, invoiceUrl.listAll, query))
     // { invoices: { '@': Type, {invoice: InvoiceGetResponse}[] }}
     .get('invoices')
