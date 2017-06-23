@@ -35,8 +35,6 @@ import {
 , ItemBase
 , ItemCreate
 , ItemsCreate
-, ItemGet
-, ItemsGet
 } from '../items';
 
 import {
@@ -83,6 +81,18 @@ export type TaxExemption
   | 'M16'
   | 'M99'
   ;
+
+export interface InvoiceItemGet extends ItemBase
+  { tax      : TaxGet
+  , subtotal : number
+  , taxAmount: number
+  , total    : number
+  }
+
+export interface InvoiceItemsGet
+  { '@': Type
+  , item: Array<InvoiceItemGet>
+  }
 
 export type InvoiceStatusBase
   = 'finalized'
@@ -164,7 +174,7 @@ export interface InvoiceGetResponse
   , permalink     : string
   , saftHash      : string
   , currency      : InvoiceCurrency
-  , items         : ItemsGet
+  , items         : InvoiceItemsGet
   , sum           : number
   , discount      : number
   , beforeTaxes   : number

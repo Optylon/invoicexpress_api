@@ -84,18 +84,6 @@ export interface ItemsCreate
   , item: Array<ItemCreate>
   }
 
-export interface ItemGet extends ItemBase
-  { tax      : TaxGet
-  , subtotal : number
-  , taxAmount: number
-  , total    : number
-  }
-
-export interface ItemsGet
-  { '@': Type
-  , item: Array<ItemGet>
-  }
-
 export interface ItemsCreateRequest extends ItemCreate
   { unit?    : string
   }
