@@ -83,10 +83,14 @@ export type TaxExemption
   ;
 
 export interface InvoiceItemGet extends ItemBase
-  { tax      : TaxGet
-  , subtotal : number
-  , taxAmount: number
-  , total    : number
+  { unit          : string
+  , quantity      : number
+  , tax           : TaxGet
+  , discount      : number // between 0 and 100 ?
+  , discountAmount: number
+  , subtotal      : number
+  , taxAmount     : number
+  , total         : number
   }
 
 export interface InvoiceItemsGet
