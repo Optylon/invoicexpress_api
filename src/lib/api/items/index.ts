@@ -98,8 +98,8 @@ export type ItemsGetResponse = ItemsCreateResponse;
 export type ItemsUpdateRequest = ItemsCreateRequest;
 
 export interface ItemsListQuery
-  { page    : number
-  , perPage : PerPage
+  { page?    : number
+  , perPage? : PerPage
   }
 
 // ---------------------------------------------------------------------------
