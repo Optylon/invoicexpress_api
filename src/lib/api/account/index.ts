@@ -106,10 +106,9 @@ export class Account {
   static root = 'account';
 
   static create(
-      auth: I.Auth
-    , body: AccountCreateRequest
+      body: AccountCreateRequest
     ) : Promise<AccountCreateResponse> {
-    return publisher({ ...postSetup(auth, accountUrl.create)
+    return publisher({ ...unAuthPostSetup(accountUrl.create)
                      , root: this.root
                      , body
                      });
