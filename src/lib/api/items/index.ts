@@ -156,7 +156,7 @@ export class Items {
     // { invoices: { '@': Type, {invoice: ItemsGetResponse}[] }}
     .get('items')
     // {invoice: ItemsGetResponse}[]
-    .map(invc => invc.item);
+    .get('item');
   }
 
 }

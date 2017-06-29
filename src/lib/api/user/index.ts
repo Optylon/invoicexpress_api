@@ -2,6 +2,7 @@
 // 'External' modules --------------------------------------------------------
 // ---------------------------------------------------------------------------
 import Promise  from 'bluebird';
+import util     from 'util';
 
 // ---------------------------------------------------------------------------
 // Project modules -----------------------------------------------------------
@@ -48,6 +49,9 @@ export interface AccountLoginInformation
   }
 
 export type UserLoginResponse = AccountLoginInformation[];
+
+export type UserAccountsResponse = AccountLoginInformation[];
+
 // ---------------------------------------------------------------------------
 // User URLs -----------------------------------------------------------------
 // ---------------------------------------------------------------------------
@@ -57,6 +61,10 @@ export const userUrl =
   , changeAccount: ({accountName}) =>
                     `${baseUrl(accountName)}/users/change_account.xml`
   };
+
+export function debug(x) {
+  return util.inspect(x,{ depth: null, colors: true });
+}
 
 // ---------------------------------------------------------------------------
 // External Class ------------------------------------------------------------
@@ -71,16 +79,16 @@ export class User {
     // { accounts: { account: AccountLoginInformation}[]}
     .get('accounts')
     // { account: AccountLoginInformation}[]
-    .map(accnt => accnt.account);
+    .get('account');
     // AccountLoginInformation[]
   }
 
-  static accounts(auth: Auth) : Promise<UserLoginResponse> {
+  static accounts(auth: Auth) : Promise<UserAccountsResponse> {
     return getter(getSetup(auth, userUrl.accounts, { }))
     // { accounts: { account: AccountLoginInformation}[]}
     .get('accounts')
     // { account: AccountLoginInformation}[]
-    .map(accnt => accnt.account);
+    .get('account');
     // AccountLoginInformation[]
   }
 

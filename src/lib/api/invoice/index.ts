@@ -273,7 +273,7 @@ export class Invoice {
     // { invoices: { '@': Type, {invoice: InvoiceGetResponse}[] }}
     .get('invoices')
     // {invoice: InvoiceGetResponse}[]
-    .map(invc => invc.invoice);
+    .get('invoice');
   }
 
   static changeState( auth: Auth
