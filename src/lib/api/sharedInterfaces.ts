@@ -4,7 +4,7 @@
 // } from '../../lib/country';
 
 // brought from main project
-// export type Id = string;
+export type Id = number;
 
 // export type GenericObj = { [keys: string]: any };
 

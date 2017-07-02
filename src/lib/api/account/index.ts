@@ -29,6 +29,7 @@ import {
 
 import {
   Address
+, Id
 , IdBase
 , SupportedLanguages
 , TermsAndConditions
@@ -114,23 +115,31 @@ export class Account {
                      });
   }
 
-  static get(auth: I.Auth, accountId) : Promise<AccountGetResponse> {
+  static get(auth: I.Auth, accountId: Id) : Promise<AccountGetResponse> {
     return getter(getSetup(auth, accountUrl.get, { accountId }))
-    .get(this.root);
+    .get(this.root)
+    // invoice express allows for vat numbers like PT513222000
+    // which are not numbers at all. So, for consistency, we always convert
+    // to string
+    .then(accountData =>
+      'fiscalId' in accountData && accountData.fiscalId
+      ? {...accountData, fiscalId: accountData.fiscalId.toString() }
+      : accountData
+    );
   }
 
-  static suspend(auth: I.Auth, accountId) : Promise<void> {
+  static suspend(auth: I.Auth, accountId: Id) : Promise<void> {
     return publisher({ ...putSetup(auth, accountUrl.suspend, {accountId})
                      });
   }
 
-  static activate(auth: I.Auth, accountId) : Promise<void> {
+  static activate(auth: I.Auth, accountId: Id) : Promise<void> {
     return publisher({ ...putSetup(auth, accountUrl.activate, {accountId})
                      });
   }
 
   static update( auth: I.Auth
-               , accountId
+               , accountId: Id
                , body: AccountUpdateRequest) : Promise<void> {
     return publisher({ ...putSetup(auth, accountUrl.update, {accountId})
                      , root: this.root
