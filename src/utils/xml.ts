@@ -23,6 +23,10 @@ import {
 , platformDateFormat
 } from './constants';
 
+import {
+  debug
+} from '../utils';
+
 // ---------------------------------------------------------------------------
 // Constants -----------------------------------------------------------------
 // ---------------------------------------------------------------------------
@@ -55,9 +59,12 @@ const deepMap = (obj, filter, fn) =>
     // if it's a relevant (final) key, analyse it
     if (   filter(val,key)) {
       return fn(val);
-    // recursive objects
+    // recurse through objects except if they are Dates or moment
     } else if (val && typeof val === 'object'
-                   && val.constructor === '[Function: Object]') {
+                   && val !== null
+                   && !Array.isArray(val)
+                   && !(val instanceof Date)
+              ) {
       return deepMap(val, filter,  fn);
       // recursive arrays
     } else if (Array.isArray(obj[key])) {
@@ -66,6 +73,18 @@ const deepMap = (obj, filter, fn) =>
       return val;
     }
   });
+
+/** Tags which have the nil === 'true' attribute are correctly
+ *  translated into javascript null values
+ */
+// https://stackoverflow.com/a/774234
+const nilAttrToNull = (obj) =>
+  deepMap( obj
+         , (val, _key) => typeof val === 'object'
+                       && '@' in val
+                       && 'nil' in val['@']
+                       && val['@']['nil'] === 'true'
+         , () => null);
 
 // ---------------------------------------------------------------------------
 // Configurations ------------------------------------------------------------
@@ -95,7 +114,7 @@ export const fromXml = (xml) =>
       if (err) {
         return reject(err);
       } else {
-        return resolve(data);
+        return resolve(nilAttrToNull(data));
       }
     });
   });
