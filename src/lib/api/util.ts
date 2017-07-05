@@ -41,6 +41,7 @@ export interface Publisher
   , url: string
   , root?: string
   }
+
 // ---------------------------------------------------------------------------
 // Internal API url functions ------------------------------------------------
 // ---------------------------------------------------------------------------
@@ -104,3 +105,15 @@ export const listSetup =
     , url: `${urlFn({accountName})}?${formattedParams}`
     });
   };
+
+// ---------------------------------------------------------------------------
+// Internal API utility functions --------------------------------------------
+// ---------------------------------------------------------------------------
+
+/** Assure all array returning functions really return arrays
+ *  and not single object when array.length === 1
+ */
+export const toArray = (arrayOrElement) => Array.isArray(arrayOrElement)
+                                          ? arrayOrElement
+                                          : [arrayOrElement];
+

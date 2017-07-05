@@ -19,6 +19,7 @@ import {
 , putSetup
 , getSetup
 , listSetup
+, toArray
 } from '../util';
 
 import {
@@ -79,7 +80,10 @@ export class User {
     // { accounts: { account: AccountLoginInformation}[]}
     .get('accounts')
     // { account: AccountLoginInformation}[]
-    .get('account');
+    .get('account')
+    // xml lib places single element array as single object
+    // we do not want that
+    .then(data => toArray(data));
     // AccountLoginInformation[]
   }
 
@@ -88,7 +92,10 @@ export class User {
     // { accounts: { account: AccountLoginInformation}[]}
     .get('accounts')
     // { account: AccountLoginInformation}[]
-    .get('account');
+    .get('account')
+    // xml lib places single element array as single object
+    // we do not want that
+    .then(data => toArray(data));
     // AccountLoginInformation[]
   }
 

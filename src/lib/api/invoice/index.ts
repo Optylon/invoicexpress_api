@@ -19,6 +19,7 @@ import {
 , putSetup
 , getSetup
 , listSetup
+, toArray
 } from '../util';
 
 import {
@@ -273,7 +274,10 @@ export class Invoice {
     // { invoices: { '@': Type, {invoice: InvoiceGetResponse}[] }}
     .get('invoices')
     // {invoice: InvoiceGetResponse}[]
-    .get('invoice');
+    .get('invoice')
+    // xml lib places single element array as single object
+    // we do not want that
+    .then(data => toArray(data));
   }
 
   static changeState( auth: Auth
