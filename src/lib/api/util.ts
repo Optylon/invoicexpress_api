@@ -116,4 +116,3 @@ export const listSetup =
 export const toArray = (arrayOrElement) => Array.isArray(arrayOrElement)
                                           ? arrayOrElement
                                           : [arrayOrElement];
-

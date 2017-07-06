@@ -7,6 +7,9 @@ import js2xmlparser from 'js2xmlparser';
 import xml2js       from 'xml2js';
 import moment       from 'moment';
 import R            from 'ramda';
+// for debugging purposes only
+import fs           from 'fs';
+import path         from 'path';
 
 import {
   parseBooleans
@@ -33,6 +36,24 @@ import {
 
 /** moment.js parse mode */
 const strictParsing = true;
+
+// ---------------------------------------------------------------------------
+// Debuging features ---------------------------------------------------------
+// ---------------------------------------------------------------------------
+const xmlPath = fs.existsSync(process.env['XML_LOG_PATH'])
+              && process.env['XML_LOG_PATH'] || null;
+
+export const writeFile =
+  Promise.promisify((fn: string,data: any,cb) =>
+                                    fs.writeFile(fn,data,'utf8',cb));
+
+const incomingXmlLog = xml => {
+  const xmlFile = xmlPath ? path.join(xmlPath
+                                     , `incoming_${moment().format()}.xml`)
+                          : null;
+  return !xmlFile ? Promise.resolve(xml)
+                  : writeFile(xmlFile, xml).then(() => xml);
+};
 
 // ---------------------------------------------------------------------------
 // Internal Functions --------------------------------------------------------
@@ -109,15 +130,18 @@ const xml2jsOptions : xml2js.Options =
 // ---------------------------------------------------------------------------
 /** Convert from Invoice Express XML format */
 export const fromXml = (xml) =>
-  new Promise((resolve, reject)=>{
-    xml2js.parseString(xml, xml2jsOptions, (err, data)=>{
-      if (err) {
-        return reject(err);
-      } else {
-        return resolve(nilAttrToNull(data));
-      }
-    });
-  });
+  incomingXmlLog(xml)
+  .then(() =>
+    new Promise((resolve, reject)=>{
+      xml2js.parseString(xml, xml2jsOptions, (err, data)=>{
+        if (err) {
+          return reject(err);
+        } else {
+          return resolve(nilAttrToNull(data));
+        }
+      });
+    })
+  );
 
 /** Convert to Invoice Express XML format */
 export const toXml = (root, body) => {
