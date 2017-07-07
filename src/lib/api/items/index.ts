@@ -80,9 +80,19 @@ export interface ItemCreate extends ItemBase
   {  tax? : TaxName
   }
 
+export interface InvoiceItemCreate
+  extends ItemCreate
+  { quantity: number
+  }
+
 export interface ItemsCreate
   { '@': Type
   , item: Array<ItemCreate>
+  }
+
+export interface InvoiceItemsCreate
+  { '@': Type
+  , item: Array<InvoiceItemCreate>
   }
 
 export interface ItemsCreateRequest extends ItemCreate

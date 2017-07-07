@@ -34,8 +34,7 @@ import {
 , TaxCreate
 , TaxGet
 , ItemBase
-, ItemCreate
-, ItemsCreate
+, InvoiceItemsCreate
 } from '../items';
 
 import {
@@ -161,7 +160,7 @@ export interface InvoiceCreateRequest
     taxExemption? : TaxExemption
   , sequenceId?   : string
   , manualSequenceNumber? : string
-  , items         : ItemsCreate
+  , items         : InvoiceItemsCreate
   , taxRetention? : number
   , mbReference?  : string
   }
