@@ -20,6 +20,7 @@
   "author": "Optylon",
   "license": "ISC",
   "dependencies": {
+    "bluebird-retry": "^0.11.0",
     "humps": "^2.0.0",
     "js2xmlparser": "^3.0.0",
     "moment": "^2.15.1",
@@ -30,6 +31,7 @@
     "xml2js": "^0.4.17"
   },
   "devDependencies": {
+    "@types/bluebird-global": "^3.5.3",
     "@types/humps": "^1.1.2",
     "@types/node": "^7.0.12",
     "@types/winston": "^2.3.0",
