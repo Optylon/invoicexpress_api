@@ -55,7 +55,7 @@ export interface SequenceCreateRequest
   }
 
 export interface SequenceGetResponse
-  { id                                   : number
+  { id                                 : number
   , serie                              : string
   , defaultSequence                    : number
   , currentInvoiceNumber               : number
@@ -106,11 +106,12 @@ export class Sequence {
   static create(
       auth: Auth
     , body: SequenceCreateRequest
-    ) : Promise<InvoiceGetResponse> {
+    ) : Promise<SequenceGetResponse> {
     return publisher({ ...postSetup(auth, sequenceUrl.create)
                      , root: this.root
                      , body
                      })
+    .get('sequence')
     .catch(errors.StatusCodeError, err => {
       switch (err.statusCode) {
         case 401: throw new InvalidInvoiceXpressAPIKey(debug(auth));

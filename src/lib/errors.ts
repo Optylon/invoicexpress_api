@@ -40,3 +40,27 @@ export function InvoiceXpressInvalidId(addMsg?) {
 }
 InvoiceXpressInvalidId.prototype = Object.create(Error.prototype);
 InvoiceXpressInvalidId.prototype.constructor = InvoiceXpressInvalidId;
+
+export function InvoiceXpressNotArray(addMsg?) {
+  this.message = 'InvoiceXpress provided element should be array:' + (addMsg ? addMsg : '');
+  this.name = 'InvoiceXpressNotArray';
+  Error.captureStackTrace(this, InvoiceXpressNotArray);
+}
+InvoiceXpressNotArray.prototype = Object.create(Error.prototype);
+InvoiceXpressNotArray.prototype.constructor = InvoiceXpressNotArray;
+
+export function InvoiceXpressUnkownCountry(addMsg?) {
+  this.message = 'InvoiceXpress provided with unknown country:' + (addMsg ? addMsg : '');
+  this.name = 'InvoiceXpressUnkownCountry';
+  Error.captureStackTrace(this, InvoiceXpressUnkownCountry);
+}
+InvoiceXpressUnkownCountry.prototype = Object.create(Error.prototype);
+InvoiceXpressUnkownCountry.prototype.constructor = InvoiceXpressUnkownCountry;
+
+export function InvoiceXpressInvalidClient(addMsg?) {
+  this.message = 'InvoiceXpress provided with invalid client info:' + (addMsg ? addMsg : '');
+  this.name = 'InvoiceXpressInvalidClient';
+  Error.captureStackTrace(this, InvoiceXpressInvalidClient);
+}
+InvoiceXpressInvalidClient.prototype = Object.create(Error.prototype);
+InvoiceXpressInvalidClient.prototype.constructor = InvoiceXpressInvalidClient;

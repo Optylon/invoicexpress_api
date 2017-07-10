@@ -2,6 +2,7 @@
 // 'External' modules --------------------------------------------------------
 // ---------------------------------------------------------------------------
 import Promise  from 'bluebird';
+import errors   from 'request-promise/errors';
 import R        from 'ramda';
 
 // ---------------------------------------------------------------------------
@@ -10,6 +11,7 @@ import R        from 'ramda';
 import {
   getter
 , publisher
+, getErrorString
 } from '../../request';
 
 import {
@@ -45,6 +47,18 @@ import {
 , SupportedLanguages
 , Type
 } from '../sharedInterfaces';
+
+import {
+  debug
+} from '../../../utils';
+
+import {
+  InvalidInvoiceXpressAPIKey
+, InvoiceXpressInvalidClient
+, InvoiceXpressNotArray
+, InvoiceXpressUnkownCountry
+, InvoiceXpressUnexpectedError
+} from '../../errors';
 
 // ---------------------------------------------------------------------------
 // Types ---------------------------------------------------------------------
@@ -158,7 +172,7 @@ export interface InvoiceCreateRequest
   extends InvoiceBase
   { // %, number between 0 and 99.99
     taxExemption? : TaxExemption
-  , sequenceId?   : string
+  , sequenceId?   : number
   , manualSequenceNumber? : string
   , items         : InvoiceItemsCreate
   , taxRetention? : number
@@ -173,7 +187,7 @@ export interface InvoiceGetResponse
   , status        : InvoiceStatus
   , archived      : boolean
   , type          : InvoiceType
-  , sequenceNumber: string
+  , sequenceNumber: number
   , invertedSequenceNumber?: string
   , permalink     : string
   , saftHash      : string
@@ -247,7 +261,34 @@ export class Invoice {
     return publisher({ ...postSetup(auth, invoiceUrl.create)
                      , root: this.root
                      , body
-                     });
+                     })
+    .catch(errors.StatusCodeError, err => {
+      switch (err.statusCode) {
+        case 401: throw new InvalidInvoiceXpressAPIKey(debug(auth));
+        // TODO: still more errors to check
+        case 422:
+          if (getErrorString(err.error) ===
+                'Items element should be of type array') {
+            throw new InvoiceXpressNotArray(
+               `Create invoice items: ${debug(body)}`
+            );
+          } else if (getErrorString(err.error).startsWith('Country')) {
+            throw new InvoiceXpressUnkownCountry(
+               `Create invoice country: ${debug(body)}`
+            );
+          } else if (getErrorString(err.error) === 'Client is invalid') {
+            throw new InvoiceXpressInvalidClient(
+               `Create invoice country: ${debug(body)}`
+            );
+          } else {
+            throw new InvoiceXpressUnexpectedError(
+               `Create invoice: ${err.error} ${debug(body)}`
+            );
+          }
+        default : throw err;
+      }
+    });
+
   }
 
   static get(auth: Auth, invoiceId) : Promise<InvoiceGetResponse> {
