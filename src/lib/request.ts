@@ -3,7 +3,6 @@
 // ---------------------------------------------------------------------------
 import blueRetry    from 'bluebird-retry';
 import request      from 'request-promise';
-import contentType  from 'content-type';
 import errors       from 'request-promise/errors';
 import js2xmlparser from 'js2xmlparser';
 import xml2js       from 'xml2js';
