@@ -16,11 +16,14 @@ import {
 , parseNumbers
 } from 'xml2js/lib/processors';
 
+import {
+  camelizeKeys
+, decamelizeKeys
+} from 'humps';
+
 // ---------------------------------------------------------------------------
 // Project modules -----------------------------------------------------------
 // ---------------------------------------------------------------------------
-import options from '../utils/options';
-
 import {
   invoiceExpressDateFormat
 , platformDateFormat
@@ -111,8 +114,7 @@ const nilAttrToNull = (obj) =>
 // Configurations ------------------------------------------------------------
 // ---------------------------------------------------------------------------
 const js2xmlparserOptions =
-  { '[object Date]': (value) => moment(value).format(invoiceExpressDateFormat)
-  };
+  { };
 
 const xml2jsOptions : xml2js.Options =
   { explicitArray: false
@@ -137,7 +139,7 @@ export const fromXml = (xml) =>
         if (err) {
           return reject(err);
         } else {
-          return resolve(nilAttrToNull(data));
+          return resolve(camelizeKeys(nilAttrToNull(data)));
         }
       });
     })
@@ -146,7 +148,7 @@ export const fromXml = (xml) =>
 /** Convert to Invoice Express XML format */
 export const toXml = (root, body) => {
   const dateConverted = deepMap(
-        body
+        decamelizeKeys(body)
       , (val, key) =>
           val
           && key.search(/.*date.*/i) !== -1
@@ -167,11 +169,3 @@ export const toXml = (root, body) => {
   });
   return js2xmlparser.parse(root, dateConverted, js2xmlparserOptions);
 };
-
-// export const getter =
-  // ({apiKey, url}) =>
-  // request.get({...options
-                // , url
-                // , qs: {api_key: apiKey}
-              // })
-  // .then(xmlData => fromXml(xmlData));

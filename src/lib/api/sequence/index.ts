@@ -12,6 +12,7 @@ import R        from 'ramda';
 import {
   getter
 , publisher
+, getErrorString
 } from '../../request';
 
 import {
@@ -24,6 +25,10 @@ import {
 } from '../util';
 
 import {
+  debug
+} from '../../../utils';
+
+import {
   Auth
 , IdBase
 , SupportedLanguages
@@ -33,6 +38,13 @@ import {
 import {
   InvoiceGetResponse
 } from '../invoice';
+
+import {
+  InvalidInvoiceXpressAPIKey
+, InvoiceXpressElementAlreadyExists
+, InvoiceXpressInvalidName
+, InvoiceXpressUnexpectedError
+} from '../../errors';
 
 // ---------------------------------------------------------------------------
 // Types ---------------------------------------------------------------------
@@ -77,8 +89,7 @@ export interface SequenceGetResponse
 const sequenceUrlFn  = accountName => `${baseUrl(accountName)}/sequences`;
 
 export const sequenceUrl =
-  {
-    create  : ({accountName}) => `${sequenceUrlFn(accountName)}.xml`
+  { create  : ({accountName}) => `${sequenceUrlFn(accountName)}.xml`
   , get     : ({accountName, sequenceId}) =>
                 `${sequenceUrlFn(accountName)}/${sequenceId}.xml`
   , update  : ({accountName, sequenceId}) =>
@@ -99,15 +110,49 @@ export class Sequence {
     return publisher({ ...postSetup(auth, sequenceUrl.create)
                      , root: this.root
                      , body
-                     });
+                     })
+    .catch(errors.StatusCodeError, err => {
+      switch (err.statusCode) {
+        case 401: throw new InvalidInvoiceXpressAPIKey(debug(auth));
+        case 422:
+          if (getErrorString(err.error) === 'Sequence name already exists.') {
+            throw new InvoiceXpressElementAlreadyExists(
+               `Create sequence: ${debug(body)}`
+            );
+          } else if (getErrorString(err.error) ===
+                      'The sequence name is invalid') {
+            throw new InvoiceXpressInvalidName(
+               `Create sequence: ${debug(body)}`
+            );
+          } else {
+            throw new InvoiceXpressUnexpectedError(
+               `Create sequence: ${debug(body)}`
+            );
+          }
+        default : throw err;
+      }
+    });
+
   }
 
   static get(
       auth: Auth
     , sequenceId: number
     ) : Promise<SequenceGetResponse>{
-      return getter(getSetup(auth, sequenceUrl.get, { sequenceId }))
-      .get('sequence');
+     return getter(getSetup(auth, sequenceUrl.get, { sequenceId }))
+    .get('sequence')
+    .catch(errors.StatusCodeError, err => {
+      switch (err.statusCode) {
+        case 401: throw new InvalidInvoiceXpressAPIKey(debug(auth));
+        case 404:
+          if (getErrorString(err.error) === 'No sequence matches') {
+            throw new InvoiceXpressElementAlreadyExists(
+               `Get sequence: ${sequenceId}`
+            );
+          }
+        default : throw err;
+      }
+    });
   }
 
   static update(

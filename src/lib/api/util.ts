@@ -69,7 +69,7 @@ export const postSetup = (auth: I.Auth, urlFn) : PublisherPost => {
   return (
     { method: 'POST'
     , apiKey
-    , url: urlFn(accountName)
+    , url: urlFn({accountName})
     });
   };
 
