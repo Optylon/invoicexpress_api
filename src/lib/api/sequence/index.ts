@@ -1,7 +1,6 @@
 // ---------------------------------------------------------------------------
 // 'External' modules --------------------------------------------------------
 // ---------------------------------------------------------------------------
-import Promise  from 'bluebird';
 import request  from 'request-promise';
 import errors   from 'request-promise/errors';
 import R        from 'ramda';

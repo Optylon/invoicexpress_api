@@ -1,7 +1,6 @@
 // ---------------------------------------------------------------------------
 // 'External' modules --------------------------------------------------------
 // ---------------------------------------------------------------------------
-import Promise      from 'bluebird';
 import request      from 'request-promise';
 import js2xmlparser from 'js2xmlparser';
 import xml2js       from 'xml2js';
@@ -46,9 +45,15 @@ const strictParsing = true;
 const xmlPath = fs.existsSync(process.env['XML_LOG_PATH'])
               && process.env['XML_LOG_PATH'] || null;
 
-export const writeFile =
-  Promise.promisify((fn: string,data: any,cb) =>
-                                    fs.writeFile(fn,data,'utf8',cb));
+export const writeFile = (fn: string, data: any) : Promise<void> =>
+  new Promise((resolve, reject) =>
+    fs.writeFile(fn, data, { mode: 'utf8' }, err => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve();
+      }
+    }));
 
 const incomingXmlLog = xml => {
   const xmlFile = xmlPath ? path.join(xmlPath
