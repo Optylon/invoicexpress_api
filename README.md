@@ -1,6 +1,8 @@
 # Node-invoice #
 
-Publishes invoices to invoiceExpress through invoiceExpress API
+Node API for InvoiceXpress portuguese invoicing software.
+
+Alpha stage, not all API calls supported, tests missing. Use with caution.
 
 ### To set up ###
 
