@@ -1,0 +1,1 @@
+{"version":3,"sources":["utils/constants.ts"],"names":["invoiceExpressDateFormat","platformDateFormat"],"mappings":";;;;;AAAO,IAAMA,8DAA2B,YAAjC;AAEA,IAAMC,kDAAqB,YAA3B","file":"constants.js","sourcesContent":["export const invoiceExpressDateFormat = 'DD/MM/YYYY';\n\nexport const platformDateFormat = 'YYYY-MM-DD';\n"]}
