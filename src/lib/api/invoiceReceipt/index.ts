@@ -94,7 +94,7 @@ export const invoiceReceiptUrl =
 // External Class ------------------------------------------------------------
 // ---------------------------------------------------------------------------
 export class InvoiceReceipt {
-  static root = 'invoice';
+  static root = 'invoice_receipt';
 
   static create(
       auth: Auth
@@ -112,19 +112,19 @@ export class InvoiceReceipt {
           if (getErrorString(err.error) ===
                 'Items element should be of type array') {
             throw new InvoiceXpressNotArray(
-               `Create invoice items: ${debug(body)}`
+               `Create invoice_receipt items: ${debug(body)}`
             );
           } else if (getErrorString(err.error).startsWith('Country')) {
             throw new InvoiceXpressUnkownCountry(
-               `Create invoice country: ${debug(body)}`
+               `Create invoice_receipt country: ${debug(body)}`
             );
           } else if (getErrorString(err.error) === 'Client is invalid') {
             throw new InvoiceXpressInvalidClient(
-               `Create invoice country: ${debug(body)}`
+               `Create invoice_receipt country: ${debug(body)}`
             );
           } else {
             throw new InvoiceXpressUnexpectedError(
-               `Create invoice: ${err.error} ${debug(body)}`
+               `Create invoice_receipt: ${err.error} ${debug(body)}`
             );
           }
         default : throw err;
@@ -154,9 +154,9 @@ export class InvoiceReceipt {
                 ) : Promise<InvoiceGetResponse[]> {
     return getter(listSetup(auth, invoiceReceiptUrl.listAll, query))
     // { invoices: { '@': Type, {invoice: InvoiceGetResponse}[] }}
-    .get('invoices')
+    .get('invoice_receipts')
     // {invoice: InvoiceGetResponse}[]
-    .get('invoice')
+    .get('invoice_receipt')
     // xml lib places single element array as single object
     // we do not want that
     .then(data => toArray(data));
