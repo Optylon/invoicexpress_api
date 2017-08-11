@@ -73,7 +73,7 @@ import {
 // ---------------------------------------------------------------------------
 const invoiceReceiptUrlFn  = accountName =>
   `${baseUrl(accountName)}/invoice_receipts`;
-  
+
 const generatePdfUrlFn = accountName =>
   `${baseUrl(accountName)}/api/pdf`;
 
@@ -93,7 +93,7 @@ export const invoiceReceiptUrl =
 // ---------------------------------------------------------------------------
 // External Class ------------------------------------------------------------
 // ---------------------------------------------------------------------------
-export class Invoice {
+export class InvoiceReceipt {
   static root = 'invoice';
 
   static create(

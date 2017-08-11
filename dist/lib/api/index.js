@@ -75,4 +75,16 @@ Object.keys(_user).forEach(function (key) {
     }
   });
 });
+
+var _invoiceReceipt = require('./invoiceReceipt');
+
+Object.keys(_invoiceReceipt).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _invoiceReceipt[key];
+    }
+  });
+});
 //# sourceMappingURL=index.js.map
