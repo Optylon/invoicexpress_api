@@ -1,7 +1,9 @@
 import { Auth } from '../sharedInterfaces';
+export declare type Region = 'PT' | 'PT-AC' | 'PT-MA' | 'Desconhecido';
 export interface TaxCreateRequest {
     name: string;
     value: number;
+    region: Region;
 }
 export interface TaxCreateResponse extends TaxCreateRequest {
     id: number;

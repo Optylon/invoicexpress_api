@@ -48,9 +48,17 @@ import {
 // ---------------------------------------------------------------------------
 // Types ---------------------------------------------------------------------
 // ---------------------------------------------------------------------------
+export type Region
+  = 'PT'
+  | 'PT-AC'
+  | 'PT-MA'
+  | 'Desconhecido'
+  ;
+
 export interface TaxCreateRequest
-  { name         : string
-  , value        : number
+  { name    : string
+  , value   : number
+  , region  : Region
     // TODO: missing region and default tax
   }
 
