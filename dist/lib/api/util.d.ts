@@ -10,7 +10,7 @@ export interface Getter {
 export interface Publisher {
     method: string;
     apiKey?: string;
-    body?: Api.AccountCreateRequest | Api.AccountUpdateRequest | Api.Credentials | Api.InvoiceCreateRequest | Api.InvoiceChangeStateRequest | Api.SequenceCreateRequest | Api.ItemsCreateRequest;
+    body?: Api.AccountCreateRequest | Api.AccountUpdateRequest | Api.Credentials | Api.InvoiceCreateRequest | Api.InvoiceChangeStateRequest | Api.SequenceCreateRequest | Api.ItemsCreateRequest | Api.TaxCreateRequest;
     url: string;
     root?: string;
 }

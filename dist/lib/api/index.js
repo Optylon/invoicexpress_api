@@ -64,6 +64,18 @@ Object.keys(_sequence).forEach(function (key) {
   });
 });
 
+var _tax = require('./tax');
+
+Object.keys(_tax).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _tax[key];
+    }
+  });
+});
+
 var _user = require('./user');
 
 Object.keys(_user).forEach(function (key) {

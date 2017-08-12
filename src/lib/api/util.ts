@@ -37,6 +37,7 @@ export interface Publisher
          | Api.InvoiceChangeStateRequest
          | Api.SequenceCreateRequest
          | Api.ItemsCreateRequest
+         | Api.TaxCreateRequest
   , url: string
   , root?: string
   }
