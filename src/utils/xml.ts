@@ -110,6 +110,7 @@ const deepMap = (obj, filter, fn) =>
 const nilAttrToNull = (obj) =>
   deepMap( obj
          , (val, _key) => typeof val === 'object'
+                       && val
                        && '@' in val
                        && 'nil' in val['@']
                        && val['@']['nil'] === 'true'

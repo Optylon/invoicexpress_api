@@ -106,7 +106,7 @@ var deepMap = function deepMap(obj, filter, fn) {
 // https://stackoverflow.com/a/774234
 var nilAttrToNull = function nilAttrToNull(obj) {
     return deepMap(obj, function (val, _key) {
-        return (typeof val === 'undefined' ? 'undefined' : _typeof(val)) === 'object' && '@' in val && 'nil' in val['@'] && val['@']['nil'] === 'true';
+        return (typeof val === 'undefined' ? 'undefined' : _typeof(val)) === 'object' && val && '@' in val && 'nil' in val['@'] && val['@']['nil'] === 'true';
     }, function () {
         return null;
     });

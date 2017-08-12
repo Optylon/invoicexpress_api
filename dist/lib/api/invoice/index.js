@@ -83,7 +83,7 @@ var Invoice = exports.Invoice = function () {
     _createClass(Invoice, null, [{
         key: 'create',
         value: function create(auth, body) {
-            return (0, _request.publisher)(Object.assign({}, (0, _util.postSetup)(auth, invoiceUrl.create), { root: this.root, body: body })).catch(_errors2.default.StatusCodeError, function (err) {
+            return (0, _request.publisher)(Object.assign({}, (0, _util.postSetup)(auth, invoiceUrl.create), { root: this.root, body: body })).get('invoice').catch(_errors2.default.StatusCodeError, function (err) {
                 switch (err.statusCode) {
                     case 401:
                         throw new _errors3.InvalidInvoiceXpressAPIKey((0, _utils.debug)(auth));

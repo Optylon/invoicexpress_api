@@ -261,6 +261,7 @@ export class Invoice {
                      , root: this.root
                      , body
                      })
+    .get('invoice')
     .catch(errors.StatusCodeError, err => {
       switch (err.statusCode) {
         case 401: throw new InvalidInvoiceXpressAPIKey(debug(auth));
