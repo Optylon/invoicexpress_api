@@ -272,10 +272,10 @@ export class Invoice {
             throw new InvoiceXpressNotArray(
                `Create invoice items: ${debug(body)}`
             );
-          } else if (getErrorString(err.error).startsWith('Country')) {
-            throw new InvoiceXpressUnkownCountry(
-               `Create invoice country: ${debug(body)}`
-            );
+          // } else if (getErrorString(err.error).startsWith('Country')) {
+            // throw new InvoiceXpressUnkownCountry(
+               // `Create invoice country: ${debug(body)}`
+            // );
           } else if (getErrorString(err.error) === 'Client is invalid') {
             throw new InvoiceXpressInvalidClient(
                `Create invoice country: ${debug(body)}`
