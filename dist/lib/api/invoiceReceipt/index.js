@@ -87,13 +87,13 @@ var InvoiceReceipt = exports.InvoiceReceipt = function () {
                     // TODO: still more errors to check
                     case 422:
                         if ((0, _request.getErrorString)(err.error) === 'Items element should be of type array') {
-                            throw new _errors3.InvoiceXpressNotArray('Create invoice items: ' + (0, _utils.debug)(body));
+                            throw new _errors3.InvoiceXpressNotArray('Create invoice_receipt items: ' + (0, _utils.debug)(body));
                         } else if ((0, _request.getErrorString)(err.error).startsWith('Country')) {
-                            throw new _errors3.InvoiceXpressUnkownCountry('Create invoice country: ' + (0, _utils.debug)(body));
+                            throw new _errors3.InvoiceXpressUnkownCountry('Create invoice_receipt country: ' + (0, _utils.debug)(body));
                         } else if ((0, _request.getErrorString)(err.error) === 'Client is invalid') {
-                            throw new _errors3.InvoiceXpressInvalidClient('Create invoice country: ' + (0, _utils.debug)(body));
+                            throw new _errors3.InvoiceXpressInvalidClient('Create invoice_receipt country: ' + (0, _utils.debug)(body));
                         } else {
-                            throw new _errors3.InvoiceXpressUnexpectedError('Create invoice: ' + err.error + ' ' + (0, _utils.debug)(body));
+                            throw new _errors3.InvoiceXpressUnexpectedError('Create invoice_receipt: ' + err.error + ' ' + (0, _utils.debug)(body));
                         }
                     default:
                         throw err;
@@ -115,7 +115,7 @@ var InvoiceReceipt = exports.InvoiceReceipt = function () {
     }, {
         key: 'listAll',
         value: function listAll(auth, query) {
-            return (0, _request.getter)((0, _util.listSetup)(auth, invoiceReceiptUrl.listAll, query)).get('invoices').get('invoice').then(function (data) {
+            return (0, _request.getter)((0, _util.listSetup)(auth, invoiceReceiptUrl.listAll, query)).get('invoice_receipts').get('invoice_receipt').then(function (data) {
                 return (0, _util.toArray)(data);
             });
         }
@@ -134,5 +134,5 @@ var InvoiceReceipt = exports.InvoiceReceipt = function () {
     return InvoiceReceipt;
 }();
 
-InvoiceReceipt.root = 'invoice';
+InvoiceReceipt.root = 'invoice_receipt';
 //# sourceMappingURL=index.js.map
