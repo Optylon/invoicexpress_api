@@ -55,7 +55,8 @@ var Tax = exports.Tax = function () {
                     case 401:
                         throw new _errors3.InvalidInvoiceXpressAPIKey((0, _utils.debug)(auth));
                     case 422:
-                        if ((0, _request.getErrorString)(err.error) === 'Tax name already exists.') {
+                        // documented
+                        if ((0, _request.getErrorString)(err.error) === 'Name has already been taken' || (0, _request.getErrorString)(err.error) === 'Name is not available.') {
                             throw new _errors3.InvoiceXpressElementAlreadyExists('Create tax: ' + (0, _utils.debug)(body));
                         } else if ((0, _request.getErrorString)(err.error) === 'The tax name is invalid') {
                             throw new _errors3.InvoiceXpressInvalidName('Create tax: ' + (0, _utils.debug)(body));

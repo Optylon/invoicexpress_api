@@ -95,7 +95,10 @@ export class Tax {
       switch (err.statusCode) {
         case 401: throw new InvalidInvoiceXpressAPIKey(debug(auth));
         case 422:
-          if (getErrorString(err.error) === 'Tax name already exists.') {
+              // documented
+          if (getErrorString(err.error) === 'Name has already been taken'
+              // actual string
+             || getErrorString(err.error) === 'Name is not available.') {
             throw new InvoiceXpressElementAlreadyExists(
                `Create tax: ${debug(body)}`
             );
