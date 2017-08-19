@@ -91,8 +91,10 @@ var Invoice = exports.Invoice = function () {
                     case 422:
                         if ((0, _request.getErrorString)(err.error) === 'Items element should be of type array') {
                             throw new _errors3.InvoiceXpressNotArray('Create invoice items: ' + (0, _utils.debug)(body));
-                        } else if ((0, _request.getErrorString)(err.error).startsWith('Country')) {
-                            throw new _errors3.InvoiceXpressUnkownCountry('Create invoice country: ' + (0, _utils.debug)(body));
+                            // } else if (getErrorString(err.error).startsWith('Country')) {
+                            // throw new InvoiceXpressUnkownCountry(
+                            // `Create invoice country: ${debug(body)}`
+                            // );
                         } else if ((0, _request.getErrorString)(err.error) === 'Client is invalid') {
                             throw new _errors3.InvoiceXpressInvalidClient('Create invoice country: ' + (0, _utils.debug)(body));
                         } else {
