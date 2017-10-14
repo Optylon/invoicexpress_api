@@ -241,7 +241,7 @@ export const invoiceUrl =
   , update  : ({accountName, invoiceId}) =>
                   `${invoicesUrlFn(accountName)}/${invoiceId}.xml`
   , listAll : ({accountName}) => `${invoicesUrlFn(accountName)}.xml`
-  , changeStatus: ({accountName, invoiceId}) =>
+  , changeState: ({accountName, invoiceId}) =>
                   `${invoiceUrlFn(accountName)}/${invoiceId}/change-state.xml`
   , generatePdf: ({accountName, invoiceId}) =>
                   `${generatePdfUrlFn(accountName)}/${invoiceId}.xml`
@@ -325,7 +325,7 @@ export class Invoice {
                     , invoiceId: number
                     ) : Promise<void> {
     return publisher({ ...putSetup( auth
-                                  , invoiceUrl.changeStatus
+                                  , invoiceUrl.changeState
                                   , {invoiceId}
                                   )
                      , root: this.root
