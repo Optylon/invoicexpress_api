@@ -107,7 +107,7 @@ export declare const invoiceUrl: {
     listAll: ({accountName}: {
         accountName: any;
     }) => string;
-    changeStatus: ({accountName, invoiceId}: {
+    changeState: ({accountName, invoiceId}: {
         accountName: any;
         invoiceId: any;
     }) => string;

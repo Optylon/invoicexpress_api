@@ -79,7 +79,7 @@ var publisher = exports.publisher = function publisher(_ref) {
         root = _ref.root;
     return (0, _requestPromise2.default)(Object.assign({}, requestOptions, { method: method,
         url: url, qs: { api_key: apiKey }, body: body ? (0, _xml.toXml)(root, body) : '' })).catch(_errors2.default.StatusCodeError, function (res) {
-        _winston2.default.error(method + '@' + url + '/' + root + ': [' + res.statusCode + '] ' + ('' + (0, _utils.debug)(res.error)));
+        _winston2.default.error(method + '@' + url + '/' + root + ': [' + res.statusCode + '] ' + ('' + (0, _utils.debug)(res.error)), '\nXML:\n', (0, _xml.toXml)(root, body));
         if (res.statusCode !== 401) {
             return (0, _xml.fromXml)(res.error).then(function (decodedError) {
                 // we need to recreate the error from scratch :(

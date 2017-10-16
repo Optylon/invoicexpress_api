@@ -77,7 +77,9 @@ var Items = exports.Items = function () {
     }, {
         key: 'listAll',
         value: function listAll(auth, query) {
-            return (0, _request.getter)((0, _util.listSetup)(auth, itemsUrl.listAll, query)).get('items').get('item').then(function (data) {
+            return (0, _request.getter)((0, _util.listSetup)(auth, itemsUrl.listAll, query)).get('items').then(function (dt) {
+                return dt === null ? [] : dt['item'];
+            }).then(function (data) {
                 return (0, _util.toArray)(data);
             });
         }
@@ -86,5 +88,5 @@ var Items = exports.Items = function () {
     return Items;
 }();
 
-Items.root = 'invoice';
+Items.root = 'item';
 //# sourceMappingURL=index.js.map

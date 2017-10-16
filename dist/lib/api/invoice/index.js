@@ -60,7 +60,7 @@ var invoiceUrl = exports.invoiceUrl = { create: function create(_ref) {
         var accountName = _ref4.accountName;
         return invoicesUrlFn(accountName) + '.xml';
     },
-    changeStatus: function changeStatus(_ref5) {
+    changeState: function changeState(_ref5) {
         var accountName = _ref5.accountName,
             invoiceId = _ref5.invoiceId;
         return invoiceUrlFn(accountName) + '/' + invoiceId + '/change-state.xml';
@@ -127,7 +127,7 @@ var Invoice = exports.Invoice = function () {
     }, {
         key: 'changeState',
         value: function changeState(auth, body, invoiceId) {
-            return (0, _request.publisher)(Object.assign({}, (0, _util.putSetup)(auth, invoiceUrl.changeStatus, { invoiceId: invoiceId }), { root: this.root, body: body }));
+            return (0, _request.publisher)(Object.assign({}, (0, _util.putSetup)(auth, invoiceUrl.changeState, { invoiceId: invoiceId }), { root: this.root, body: body }));
         }
     }, {
         key: 'generatePDF',
