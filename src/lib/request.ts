@@ -80,7 +80,9 @@ export const publisher =
   // For status code !== 2xx
   .catch(errors.StatusCodeError, res => {
     log.error(`${method}@${url}/${root}: [${res.statusCode}] ` +
-              `${debug(res.error)}`);
+              `${debug(res.error)}`
+              , '\nXML:\n'
+              , toXml(root, body));
     if (res.statusCode !== 401) {
       return fromXml(res.error)
       .then(decodedError => {
