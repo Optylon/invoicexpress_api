@@ -131,7 +131,7 @@ export const itemsUrl =
 // External Class ------------------------------------------------------------
 // ---------------------------------------------------------------------------
 export class Items {
-  static root = 'invoice';
+  static root = 'item';
 
   static create(
       auth: Auth
@@ -166,7 +166,7 @@ export class Items {
     // { invoices: { '@': Type, {invoice: ItemsGetResponse}[] }}
     .get('items')
     // {invoice: ItemsGetResponse}[]
-    .get('item')
+    .then(dt => dt === null ? [] : dt['item'])
     // xml lib places single element array as single object
     // we do not want that
     .then(data => toArray(data));
